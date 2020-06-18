@@ -5,17 +5,32 @@ import 'package:movieapp/config/config_bloc.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/models/movie_response.dart';
 
+import 'movie_card.dart';
+
 class TopRatedCategory extends StatefulWidget {
   @override
   _TopRatedCategoryState createState() => _TopRatedCategoryState();
 }
 
 class _TopRatedCategoryState extends State<TopRatedCategory> {
+
+   PageController pageController;
+  double pageOffset = 0;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-   topRatedMoviesBloc..getTopRatedMoviesList();
+    topRatedMoviesBloc..getTopRatedMoviesList();
+    pageController = PageController(viewportFraction: 0.8);
+    pageController.addListener(() {
+      setState(() => pageOffset = pageController.page);
+    });
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -27,7 +42,7 @@ class _TopRatedCategoryState extends State<TopRatedCategory> {
           if (snapshot.data.error != null && snapshot.data.error.length > 0) {
             return _buildErrorWidget(snapshot.data.error);
           }
-          return _buildNowPlayingWidget(snapshot.data);
+          return _buildTopRatedWidget(snapshot.data);
         } else if (snapshot.hasError) {
           return _buildErrorWidget(snapshot.error);
         } else {
@@ -64,7 +79,7 @@ class _TopRatedCategoryState extends State<TopRatedCategory> {
         ));
   }
 
-  Widget _buildNowPlayingWidget(MovieResponse data) {
+  Widget _buildTopRatedWidget(MovieResponse data) {
     List<Movie> movies = data.movies;
     if (movies.length == 0) {
       return Container(
@@ -85,86 +100,18 @@ class _TopRatedCategoryState extends State<TopRatedCategory> {
         ),
       );
     } else {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 450,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: movies.length,
-                  itemExtent: 300,
-                  itemBuilder: (context, index) {
-                    return MovieCard(movies[index]);
-                  }),
-            ),
-          ),
-        ],
+      return Container(
+        height: 450,
+        child: PageView.builder(
+            controller: pageController,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return MovieCard(movies: movies[index],
+                offset: pageOffset-index,);
+            }),
       );
     }
   }
 }
 
-class MovieCard extends StatelessWidget {
-  final Movie movies;
 
-  MovieCard(this.movies);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(25.0),
-              ),
-              color: ConfigBloc().isDarkModeOn ? Colors.black : Colors.grey,
-            ),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(25.0),
-                child: Image.network(
-                  "https://image.tmdb.org/t/p/original/" + movies.poster_path,
-                  height: 280,
-                  width: 400,
-                  fit: BoxFit.cover,
-                )),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-          child: Text(movies.title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold
-              )),
-        ),
-        SizedBox(height: 10,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              EvaIcons.star,
-              color: Colors.yellow,
-            ),
-            Text(
-              movies.vote_average.toString(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-
-            )
-          ],
-        )
-      ],
-    );
-  }
-}
