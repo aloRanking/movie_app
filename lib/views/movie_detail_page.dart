@@ -1,3 +1,4 @@
+import 'package:animator/animator.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -21,12 +22,24 @@ class MovieDetailPage extends StatefulWidget {
 }
 
 class _MovieDetailPageState extends State<MovieDetailPage> {
+
+
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
     // movieDetailBloc..getMovieDetail(widget.movieId);
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+  }
+
+
+
 
   Widget getWidget(Movie movie) {
     if (movie != null) {
@@ -75,6 +88,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   Widget _buildNowPlayingWidget(Movie data) {
     Movie movie = data;
     var screenHeight = MediaQuery.of(context).size.height;
+    var screenWidth = MediaQuery.of(context).size.width;
     if (movie == null) {
       return Container(
         width: MediaQuery.of(context).size.width,
@@ -152,54 +166,61 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             ),
             Positioned(
               top: screenHeight * 0.27,
-              child: Container(
-                margin: EdgeInsets.only(left: 30),
-                height: 80,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.0),
-                        bottomLeft: Radius.circular(30.0)),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(10, 15),
+              child: Animator(
+                duration: Duration(seconds: 2),
+                builder:(context,anim, child)=> Transform.scale(
+                  //origin: Offset(screenWidth, 0),
+                  scale: anim.value,
+                  child: Container(
+                    margin: EdgeInsets.only(left: 30),
+                    height: 80,
+                    width: screenWidth,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30.0),
+                            bottomLeft: Radius.circular(30.0)),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(10, 15),
+                            color: ConfigBloc().isDarkModeOn
+                                ? Colors.transparent
+                                : Colors.blueGrey,
+                            blurRadius: 15,
+                          )
+                        ],
                         color: ConfigBloc().isDarkModeOn
-                            ? Colors.transparent
-                            : Colors.blueGrey,
-                        blurRadius: 15,
-                      )
-                    ],
-                    color: ConfigBloc().isDarkModeOn
-                        ? Colors.deepOrange
-                        : Colors.white),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            ? Colors.deepOrange
+                            : Colors.white),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            Icon(
-                              EvaIcons.star,
-                              color: Colors.yellow,
-                              size: 35,
+                            Column(
+                              children: <Widget>[
+                                Icon(
+                                  EvaIcons.star,
+                                  color: Colors.yellow,
+                                  size: 35,
+                                ),
+                                Text(movie.vote_average.toString() + '/10')
+                              ],
                             ),
-                            Text(movie.vote_average.toString() + '/10')
+                            Column(
+                              children: <Widget>[
+                                Icon(
+                                  EvaIcons.starOutline,
+                                  size: 35,
+                                ),
+                                Text('Rate this')
+                              ],
+                            )
                           ],
                         ),
-                        Column(
-                          children: <Widget>[
-                            Icon(
-                              EvaIcons.starOutline,
-                              size: 35,
-                            ),
-                            Text('Rate this')
-                          ],
-                        )
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
