@@ -54,7 +54,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: getWidget(widget.movie),
+      extendBodyBehindAppBar: true,
+      body: SafeArea(child: getWidget(widget.movie)),
     );
   }
 
@@ -111,58 +112,58 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       return SingleChildScrollView(
         child: Stack(
           children: <Widget>[
-            Container(
-              child: Column(
-                children: <Widget>[
-                  ClipPath(
-                    clipper: MyClipper(),
-                    child: Container(
-                      height: screenHeight * 0.40,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://image.tmdb.org/t/p/original/" +
-                                      movie.backdrop_path))),
-                    ),
+            Column(
+              children: <Widget>[
+                ClipPath(
+                  clipper: MyClipper(),
+                  child: Container(
+                    height: screenHeight * 0.40,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                "https://image.tmdb.org/t/p/original/" +
+                                    movie.backdrop_path,
+                            ),
+                        fit: BoxFit.cover)),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16.0, right: 16.0, top: 16.0),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            movie.title,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
-                          ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16.0, right: 16.0, top: 16.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          movie.title,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
                         ),
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Colors.deepOrange,
-                          ),
-                          child: Icon(
-                            EvaIcons.plus,
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: Colors.deepOrange,
+                        ),
+                        child: Icon(
+                          EvaIcons.plus,
+                        ),
+                      )
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 16.0,
-                      right: 16.0,
-                    ),
-                    child: MovieInfo(movie.id),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16.0,
+                    right: 16.0,
                   ),
-                  MovieCast(movie.id),
-                ],
-              ),
+                  child: MovieInfo(movie.id),
+                ),
+                MovieCast(movie.id),
+              ],
             ),
             Positioned(
               top: screenHeight * 0.27,
