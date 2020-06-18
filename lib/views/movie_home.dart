@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:movieapp/bloc/get_nowplaying_bloc.dart';
 import 'package:movieapp/config/index.dart';
+import 'package:movieapp/views/movie_detail_page.dart';
 import 'package:movieapp/widgets/now_playing.dart';
 import 'package:movieapp/widgets/nowplaying.dart';
 import 'package:movieapp/widgets/popular.dart';
@@ -25,7 +26,6 @@ class _MovieHomeState extends State<MovieHome> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: Icon(
@@ -76,7 +76,6 @@ class _HomeState extends State<Home> {
           height: 100,
           width: double.infinity,
           child: ListView(
-            itemExtent: 150,
             scrollDirection: Axis.horizontal,
             children: <Widget>[
               ListTab(
@@ -84,7 +83,7 @@ class _HomeState extends State<Home> {
                 textColor: Colors.black,
                 indicatorColor: selectedCategory == MovieCategory.now_playing
                     ? Colors.red
-                    : Colors.white,
+                    : Colors.transparent,
                 onPressed: () {
                   setState(() {
                     selectedCategory = MovieCategory.now_playing;
@@ -96,7 +95,7 @@ class _HomeState extends State<Home> {
                 textColor: Colors.black,
                 indicatorColor: selectedCategory == MovieCategory.popular
                     ? Colors.red
-                    : Colors.white,
+                    : Colors.transparent,
                 onPressed: () {
                   setState(() {
                     selectedCategory = MovieCategory.popular;
@@ -108,7 +107,7 @@ class _HomeState extends State<Home> {
                 textColor: Colors.black,
                 indicatorColor: selectedCategory == MovieCategory.top_rated
                     ? Colors.red
-                    : Colors.white,
+                    : Colors.transparent,
                 onPressed: () {
                   setState(() {
                     selectedCategory = MovieCategory.top_rated;
@@ -120,7 +119,7 @@ class _HomeState extends State<Home> {
                 textColor: Colors.black,
                 indicatorColor: selectedCategory == MovieCategory.latest
                     ? Colors.red
-                    : Colors.white,
+                    : Colors.transparent,
                 onPressed: () {
                   setState(() {
                     selectedCategory = MovieCategory.latest;
@@ -174,27 +173,30 @@ class ListTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-        child: Column(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          margin: EdgeInsets.only(top:4.0, right: 24.0),
+          child: Column(
 
-          crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
 
-          children: <Widget>[
-            Text(
-              tabText,
-              style: TextStyle(
-                fontSize: 25,
+            children: <Widget>[
+              Text(
+                tabText,
+                style: TextStyle(
+                  fontSize: 28,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 5,
-              width: 30,
-              child: Container(
-                color: indicatorColor,
-              ),
-            )
-          ],
+              SizedBox(
+                height: 5,
+                width: 40,
+                child: Container(
+                  color: indicatorColor,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
