@@ -115,22 +115,4 @@ class _NowPlayCategoryState extends State<NowPlayCategory> {
   }
 }
 
-/*
-Column(
-mainAxisAlignment: MainAxisAlignment.center,
-children: <Widget>[
-Padding(
-padding: const EdgeInsets.all(8.0),
-child: Container(
-height: 450,
-child: ListView.builder(
-scrollDirection: Axis.horizontal,
-itemCount: movies.length,
-itemExtent: 300,
-itemBuilder: (context, index) {
-return MovieCard(movies[index]);
-}),
-),
-),
-],
-);*/
+

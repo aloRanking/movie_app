@@ -240,8 +240,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                           size: 18,
                         ),
                         onPressed: () {
-                          ConfigBloc()
-                              .add(DarkModeEvent(!ConfigBloc().isDarkModeOn));
+                          Navigator.pop(context);
                         },
                       ),
                     ),
@@ -289,66 +288,3 @@ class MyClipper extends CustomClipper<Path> {
   }
 }
 
-/*
-Padding(
-padding: const EdgeInsets.all(16.0),
-child: Container(
-child: Column(
-crossAxisAlignment: CrossAxisAlignment.start,
-children: <Widget>[
-Row(
-mainAxisAlignment: MainAxisAlignment.spaceBetween,
-children: <Widget>[
-Text(movie.title,
-style: TextStyle(
-fontSize: 25,
-fontWeight: FontWeight.bold
-),),
-Container(
-height: 50,
-width: 50,
-decoration:BoxDecoration(
-borderRadius: BorderRadius.all(Radius.circular(10)),
-color: Colors.deepOrange,
-) ,
-child: Icon(
-EvaIcons.plus,
-),
-)
-],
-),
-Row(
-
-children: <Widget>[
-Text(movie.releaseDate),
-SizedBox(width: 20,),
-Text('PG-13'),
-SizedBox(width: 20,),
-Text(movie.runtime.toString())
-],
-),
-Row(
-children: <Widget>[
-
-],
-),
-SizedBox(height: 20,),
-Text('Plot Summary',
-style: TextStyle(
-fontSize: 20,
-fontWeight: FontWeight.w600
-),),
-SizedBox(height: 15,),
-Text(movie.overview),
-SizedBox(height: 20,),
-Text('Cast and Crew',
-style: TextStyle(
-fontSize: 20,
-fontWeight: FontWeight.w600
-),)
-],
-
-),
-
-),
-),*/
