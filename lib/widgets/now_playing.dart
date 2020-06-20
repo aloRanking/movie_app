@@ -102,7 +102,7 @@ class _NowPlayCategoryState extends State<NowPlayCategory> {
       );
     } else {
       return Container(
-        height: 500,
+        height:MediaQuery.of(context).size.height * 0.70,
         child: PageView.builder(
           controller: pageController,
           scrollDirection: Axis.horizontal,
