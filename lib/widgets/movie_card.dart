@@ -15,7 +15,7 @@ class MovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double gauss = math.exp(-(math.pow((offset.abs() - 0.5), 2) / 0.08));
     return Transform.translate(
-      offset: Offset(-50 * gauss * offset.sign, 0),
+      offset: Offset(-20 * gauss * offset.sign, 0),
       child: GestureDetector(
         onTap: (){
           Navigator.push(context, MaterialPageRoute(builder: (context)=>MovieDetailPage(movies)));
@@ -23,14 +23,16 @@ class MovieCard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: Container(
+              child: Card(
                 margin: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                decoration: BoxDecoration(
+                elevation: 8,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+                /*decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
                     Radius.circular(25.0),
                   ),
                   color: ConfigBloc().isDarkModeOn ? Colors.black : Colors.grey,
-                ),
+                ),*/
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(25.0),
                     child: Image.network(
