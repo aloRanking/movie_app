@@ -11,6 +11,7 @@ import 'package:movieapp/models/movie_detail.dart';
 import 'package:movieapp/models/movie_detail_response.dart';
 import 'package:movieapp/widgets/movie_cast.dart';
 import 'package:movieapp/widgets/movie_info.dart';
+import 'package:movieapp/widgets/similar_movies.dart';
 
 class MovieDetailPage extends StatefulWidget {
   final Movie movie;
@@ -118,7 +119,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                   clipper: MyClipper(),
                   child: Container(
                     height: screenHeight * 0.40,
-                    width: double.infinity,
+                    width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: NetworkImage(
@@ -163,12 +164,13 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                   child: MovieInfo(movie.id),
                 ),
                 MovieCast(movie.id),
+                SimilarMovies(movie.id),
               ],
             ),
             Positioned(
               top: screenHeight * 0.27,
               child: Animator(
-                duration: Duration(seconds: 2),
+                duration: Duration(seconds: 1),
                 builder:(context,anim, child)=> Transform.scale(
                   //origin: Offset(screenWidth, 0),
                   scale: anim.value,
@@ -244,21 +246,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                         },
                       ),
                     ),
-                    Container(
-                      width: 50,
-                      child: IconButton(
-                        icon: Icon(
-                          ConfigBloc().isDarkModeOn
-                              ? FontAwesomeIcons.lightbulb
-                              : FontAwesomeIcons.solidLightbulb,
-                          size: 18,
-                        ),
-                        onPressed: () {
-                          ConfigBloc()
-                              .add(DarkModeEvent(!ConfigBloc().isDarkModeOn));
-                        },
-                      ),
-                    ),
+
                   ],
                 ),
               ),
