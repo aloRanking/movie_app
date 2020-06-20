@@ -1,3 +1,4 @@
+import 'package:animator/animator.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -116,25 +117,7 @@ class _MovieInfoState extends State<MovieInfo> {
                             itemCount: movie.genres.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index){
-                              return Container(
-                                margin: EdgeInsets.only(right: 8),
-                                  padding: EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                                    color:  ConfigBloc().isDarkModeOn
-                                        ? Colors.deepOrange
-                                        : Colors.white54,
-                                    border: Border.all(
-                                      color: ConfigBloc().isDarkModeOn
-                                          ? Colors.white
-                                          : Colors.deepOrange,
-                                    )
-                                  ),
-                                child: Center(child: Text(movie.genres[index].name,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500
-                                ),)),
-                              );
+                              return GenreTabs(movie: movie, index: index,);
                             }),
                       ),
                       SizedBox(height: 20,),
@@ -159,5 +142,46 @@ class _MovieInfoState extends State<MovieInfo> {
 
 
     }
+  }
+}
+
+class GenreTabs extends StatelessWidget {
+  final int index;
+  final MovieDetail movie;
+
+  GenreTabs({ this.movie, this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Animator(
+      tween:Tween<Offset>(
+          begin: Offset(0.7, 0),
+          end: Offset(0.0, 0)
+      ),
+        duration: Duration(milliseconds: 1000),
+      curve: Curves.decelerate,
+      builder: (context,anim, child)=> FractionalTranslation(
+        translation: anim.value,
+        child: Container(
+          margin: EdgeInsets.only(right: 8),
+            padding: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+              color:  ConfigBloc().isDarkModeOn
+                  ? Colors.deepOrange
+                  : Colors.white54,
+              border: Border.all(
+                color: ConfigBloc().isDarkModeOn
+                    ? Colors.white
+                    : Colors.deepOrange,
+              )
+            ),
+          child: Center(child: Text(movie.genres[index].name,
+          style: TextStyle(
+            fontWeight: FontWeight.w500
+          ),)),
+        ),
+      ),
+    );
   }
 }
