@@ -1,6 +1,8 @@
+import 'package:animator/animator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:movieapp/bloc/get_cast_bloc.dart';
 import 'package:movieapp/models/cast.dart';
 import 'package:movieapp/models/cast_response.dart';
@@ -110,30 +112,7 @@ class _MovieCastState extends State<MovieCast> {
                         scrollDirection: Axis.horizontal,
                         itemCount: cast.length,
                           itemBuilder: (context, index){
-                            return Container(
-                              margin: EdgeInsets.only(right: 15),
-                              child: Column(
-
-                                children: <Widget>[
-                                  CircleAvatar(
-                                    radius: 50,
-                                    backgroundImage: NetworkImage("https://image.tmdb.org/t/p/original/" + cast[index].img) ,
-                                  ),
-                                  SizedBox(height: 8,),
-                                  Text(cast[index].name,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold
-                                  ),),
-                                  SizedBox(height: 5,),
-                                  Text(cast[index].character,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontStyle: FontStyle.italic,
-                                    ),)
-                                ],
-                              ),
-                            );
+                            return CastAvatar(cast: cast[index]);
                           }),
                     )
                   ],
@@ -149,5 +128,50 @@ class _MovieCastState extends State<MovieCast> {
 
 
     }
+  }
+}
+
+class CastAvatar extends StatelessWidget {
+  final Cast cast;
+
+
+  CastAvatar({this.cast});
+
+  @override
+  Widget build(BuildContext context) {
+    return Animator(
+      tween: Tween<Offset>(
+        begin: Offset(60, 0),
+        end: Offset(0, 0)
+      ),
+        duration: Duration(milliseconds: 1000),
+      builder: (context,anim,child)=> Transform.translate(
+        offset: anim.value,
+        child: Container(
+          margin: EdgeInsets.only(right: 15),
+          child: Column(
+
+            children: <Widget>[
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage("https://image.tmdb.org/t/p/original/" + cast.img) ,
+              ),
+              SizedBox(height: 8,),
+              Text(cast.name,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold
+              ),),
+              SizedBox(height: 5,),
+              Text(cast.character,
+                style: TextStyle(
+                    fontSize: 15,
+                    fontStyle: FontStyle.italic,
+                ),)
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
