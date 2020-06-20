@@ -37,8 +37,7 @@ class MovieCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25.0),
                     child: Image.network(
                       "https://image.tmdb.org/t/p/original/" + movies.poster_path,
-                      height: 280,
-                      width: 400,
+
                       fit: BoxFit.cover,
                     )),
               ),
