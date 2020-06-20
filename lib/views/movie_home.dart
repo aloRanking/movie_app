@@ -24,39 +24,39 @@ class MovieHome extends StatefulWidget {
 class _MovieHomeState extends State<MovieHome> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
+
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        leading: Icon(
-          ConfigBloc().isDarkModeOn ?
-          EvaIcons.menu2: EvaIcons.menu2Outline,
+    backgroundColor: Colors.transparent,
+    leading: Icon(
+      ConfigBloc().isDarkModeOn ?
+      EvaIcons.menu2: EvaIcons.menu2Outline,
 
+    ),
+    actions: <Widget>[
+      IconButton(
+        icon: Icon(
+          ConfigBloc().isDarkModeOn
+              ? FontAwesomeIcons.lightbulb
+              : FontAwesomeIcons.solidLightbulb,
+          size: 18,
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              ConfigBloc().isDarkModeOn
-                  ? FontAwesomeIcons.lightbulb
-                  : FontAwesomeIcons.solidLightbulb,
-              size: 18,
-            ),
-            onPressed: () {
-              ConfigBloc().add(DarkModeEvent(!ConfigBloc().isDarkModeOn));
-            },
-          ),
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                ConfigBloc().isDarkModeOn ?
-                EvaIcons.search : EvaIcons.searchOutline,
+        onPressed: () {
+          ConfigBloc().add(DarkModeEvent(!ConfigBloc().isDarkModeOn));
+        },
+      ),
+      IconButton(
+          onPressed: () {},
+          icon: Icon(
+            ConfigBloc().isDarkModeOn ?
+            EvaIcons.search : EvaIcons.searchOutline,
 
-              ))
-        ],
-        elevation: 0.0,
+          ))
+    ],
+    elevation: 0.0,
       ),
       body: Home(),
-    ));
+    );
   }
 }
 
