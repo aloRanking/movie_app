@@ -40,11 +40,11 @@ class _PopularCategoryState extends State<PopularCategory> {
       builder: (context, AsyncSnapshot<MovieResponse> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.error != null && snapshot.data.error.length > 0) {
-            return _buildErrorWidget(snapshot.data.error);
+            return BuildErrorWidget(error:snapshot.data.error);
           }
           return _buildPopularWidget(snapshot.data);
         } else if (snapshot.hasError) {
-          return _buildErrorWidget(snapshot.error);
+          return BuildErrorWidget(error:snapshot.data.error);
         } else {
           return _buildLoadingWidget();
         }
@@ -69,15 +69,7 @@ class _PopularCategoryState extends State<PopularCategory> {
         ));
   }
 
-  Widget _buildErrorWidget(String error) {
-    return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Error occured: $error"),
-          ],
-        ));
-  }
+ 
 
   Widget _buildPopularWidget(MovieResponse data) {
     List<Movie> movies = data.movies;

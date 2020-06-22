@@ -5,6 +5,7 @@ import 'package:movieapp/config/config_bloc.dart';
 import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/models/movie_response.dart';
 
+import 'build_error.dart';
 import 'movie_card.dart';
 
 class TopRatedCategory extends StatefulWidget {
@@ -40,11 +41,11 @@ class _TopRatedCategoryState extends State<TopRatedCategory> {
       builder: (context, AsyncSnapshot<MovieResponse> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.error != null && snapshot.data.error.length > 0) {
-            return _buildErrorWidget(snapshot.data.error);
+            return BuildErrorWidget(error:snapshot.data.error);
           }
           return _buildTopRatedWidget(snapshot.data);
         } else if (snapshot.hasError) {
-          return _buildErrorWidget(snapshot.error);
+          return BuildErrorWidget(error:snapshot.data.error);
         } else {
           return _buildLoadingWidget();
         }
@@ -65,16 +66,6 @@ class _TopRatedCategoryState extends State<TopRatedCategory> {
                 strokeWidth: 4.0,
               ),
             )
-          ],
-        ));
-  }
-
-  Widget _buildErrorWidget(String error) {
-    return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Error occured: $error"),
           ],
         ));
   }

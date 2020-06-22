@@ -7,6 +7,8 @@ import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/models/movie_response.dart';
 import 'package:movieapp/views/movie_detail_page.dart';
 
+import 'build_error.dart';
+import 'build_loading.dart';
 import 'movie_card.dart';
 
 class NowPlayCategory extends StatefulWidget {
@@ -41,13 +43,13 @@ class _NowPlayCategoryState extends State<NowPlayCategory> {
       builder: (context, AsyncSnapshot<MovieResponse> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.error != null && snapshot.data.error.length > 0) {
-            return _buildErrorWidget(snapshot.data.error);
+            return BuildErrorWidget(error:snapshot.data.error);
           }
           return _buildNowPlayingWidget(snapshot.data);
         } else if (snapshot.hasError) {
-          return _buildErrorWidget(snapshot.error);
+          return BuildErrorWidget(error:snapshot.data.error);
         } else {
-          return _buildLoadingWidget();
+          return BuildLoadingWidget();
         }
       },
     );
@@ -70,15 +72,7 @@ class _NowPlayCategoryState extends State<NowPlayCategory> {
     ));
   }
 
-  Widget _buildErrorWidget(String error) {
-    return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Error occured: $error"),
-      ],
-    ));
-  }
+
 
   Widget _buildNowPlayingWidget(MovieResponse data) {
     List<Movie> movies = data.movies;
