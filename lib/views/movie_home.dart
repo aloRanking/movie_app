@@ -1,13 +1,15 @@
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:movieapp/bloc/get_nowplaying_bloc.dart';
 import 'package:movieapp/config/index.dart';
 import 'package:movieapp/views/movie_detail_page.dart';
+import 'package:movieapp/widgets/internet_not_available.dart';
 import 'package:movieapp/widgets/now_playing.dart';
-import 'package:movieapp/widgets/nowplaying.dart';
 import 'package:movieapp/widgets/popular.dart';
 import 'package:movieapp/widgets/top_rated.dart';
+import 'package:provider/provider.dart';
 
 enum MovieCategory {
   now_playing,
@@ -70,68 +72,75 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          height: 100,
-          width: double.infinity,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: <Widget>[
-              ListTab(
-                tabText: 'Now Playing',
-                textColor: Colors.black,
-                indicatorColor: selectedCategory == MovieCategory.now_playing
-                    ? Colors.red
-                    : Colors.transparent,
-                onPressed: () {
-                  setState(() {
-                    selectedCategory = MovieCategory.now_playing;
-                  });
-                },
-              ),
-              ListTab(
-                tabText: 'Popular',
-                textColor: Colors.black,
-                indicatorColor: selectedCategory == MovieCategory.popular
-                    ? Colors.red
-                    : Colors.transparent,
-                onPressed: () {
-                  setState(() {
-                    selectedCategory = MovieCategory.popular;
-                  });
-                },
-              ),
-              ListTab(
-                tabText: 'Top Rated',
-                textColor: Colors.black,
-                indicatorColor: selectedCategory == MovieCategory.top_rated
-                    ? Colors.red
-                    : Colors.transparent,
-                onPressed: () {
-                  setState(() {
-                    selectedCategory = MovieCategory.top_rated;
-                  });
-                },
-              ),
-              ListTab(
-                tabText: 'Latest',
-                textColor: Colors.black,
-                indicatorColor: selectedCategory == MovieCategory.latest
-                    ? Colors.red
-                    : Colors.transparent,
-                onPressed: () {
-                  setState(() {
-                    selectedCategory = MovieCategory.latest;
-                  });
-                },
-              ),
-            ],
+    return SingleChildScrollView(
+          child: Column(
+        children: <Widget>[        
+                
+          Container(
+            height: 100,
+            width: double.infinity,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                ListTab(
+                  tabText: 'Now Playing',
+                  textColor: Colors.black,
+                  indicatorColor: selectedCategory == MovieCategory.now_playing
+                      ? Colors.red
+                      : Colors.transparent,
+                  onPressed: () {
+                    setState(() {
+                      selectedCategory = MovieCategory.now_playing;
+                    });
+                  },
+                ),
+                ListTab(
+                  tabText: 'Popular',
+                  textColor: Colors.black,
+                  indicatorColor: selectedCategory == MovieCategory.popular
+                      ? Colors.red
+                      : Colors.transparent,
+                  onPressed: () {
+                    setState(() {
+                      selectedCategory = MovieCategory.popular;
+                    });
+                  },
+                ),
+                ListTab(
+                  tabText: 'Top Rated',
+                  textColor: Colors.black,
+                  indicatorColor: selectedCategory == MovieCategory.top_rated
+                      ? Colors.red
+                      : Colors.transparent,
+                  onPressed: () {
+                    setState(() {
+                      selectedCategory = MovieCategory.top_rated;
+                    });
+                  },
+                ),
+                ListTab(
+                  tabText: 'Latest',
+                  textColor: Colors.black,
+                  indicatorColor: selectedCategory == MovieCategory.latest
+                      ? Colors.red
+                      : Colors.transparent,
+                  onPressed: () {
+                    setState(() {
+                      selectedCategory = MovieCategory.latest;
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
-        getMoviesCategory(selectedCategory),
+           Visibility(
+                visible: Provider.of<DataConnectionStatus>(context) ==
+                    DataConnectionStatus.disconnected,
+                child: InternetNotAvailable()),
+          getMoviesCategory(selectedCategory),
 
-      ],
+        ],
+      ),
     );
 
 
