@@ -1,8 +1,11 @@
 
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movieapp/utils/data_connection_checker.dart';
 import 'package:movieapp/utils/movieapp.dart';
 import 'package:movieapp/views/movie_home.dart';
+import 'package:provider/provider.dart';
 import 'index.dart';
 
 class ConfigPage extends StatefulWidget {
@@ -54,7 +57,13 @@ class _ConfigPageState extends State<ConfigPage> {
                 elevation: 0.0,
               ),
             ),
-            home: MovieHome(),
+            home: StreamProvider<DataConnectionStatus>(
+               create: (context) {
+            return DataConnectivityService()
+                .connectivityStreamController
+                .stream;
+          },
+          child: MovieHome()),
           );
         },
       ),
