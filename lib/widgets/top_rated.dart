@@ -68,7 +68,7 @@ class _TopRatedCategoryState extends State<TopRatedCategory> {
             Column(
               children: <Widget>[
                 Text(
-                  "No More Movies",
+                  "No More Moviess",
                   style: TextStyle(color: Colors.black45),
                 )
               ],
