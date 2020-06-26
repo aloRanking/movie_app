@@ -6,6 +6,7 @@ import 'package:movieapp/models/movie.dart';
 import 'package:movieapp/models/movie_response.dart';
 
 import 'build_error.dart';
+import 'build_loading.dart';
 import 'movie_card.dart';
 
 class TopRatedCategory extends StatefulWidget {
@@ -16,15 +17,15 @@ class TopRatedCategory extends StatefulWidget {
 class _TopRatedCategoryState extends State<TopRatedCategory> {
 
    PageController pageController;
-  double pageOffset = 0;
+  var currentPageValue = 0.0;
 
   @override
   void initState() {
     super.initState();
     topRatedMoviesBloc..getTopRatedMoviesList();
-    pageController = PageController(viewportFraction: 0.8);
+    pageController = PageController();
     pageController.addListener(() {
-      setState(() => pageOffset = pageController.page);
+      setState(() => currentPageValue = pageController.page);
     });
   }
 
@@ -47,28 +48,13 @@ class _TopRatedCategoryState extends State<TopRatedCategory> {
         } else if (snapshot.hasError) {
           return BuildErrorWidget(error:snapshot.data.error);
         } else {
-          return _buildLoadingWidget();
+          return BuildLoadingWidget();
         }
       },
     );
   }
 
-  Widget _buildLoadingWidget() {
-    return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 25.0,
-              width: 25.0,
-              child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
-                strokeWidth: 4.0,
-              ),
-            )
-          ],
-        ));
-  }
+
 
   Widget _buildTopRatedWidget(MovieResponse data) {
     List<Movie> movies = data.movies;
@@ -94,11 +80,29 @@ class _TopRatedCategoryState extends State<TopRatedCategory> {
       return Container(
         height: 450,
         child: PageView.builder(
-            controller: pageController,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return MovieCard(movies: movies[index],
-                offset: pageOffset-index,);
+          controller: pageController,
+          scrollDirection: Axis.horizontal,
+            itemBuilder: (context, position) {
+              if (position == currentPageValue.floor()) {
+                                
+                      //the page we are swiping from
+                      return Transform(
+                          transform: Matrix4.identity()
+                            ..rotateX(( currentPageValue- position)),
+                          child: MovieCard(movies: movies[position]));
+                    } else if (position == currentPageValue.floor()+1) {
+                      
+                      //the page we are swiping to
+
+                      return Transform(
+                          transform: Matrix4.identity()
+                            ..rotateX((currentPageValue - position)),
+                      
+                          child:MovieCard(movies: movies[position]));
+                    } else {
+                      return MovieCard(movies: movies[position]);
+                    }
+             
             }),
       );
     }
