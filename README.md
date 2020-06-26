@@ -1,8 +1,13 @@
 # movieapp
 
-A movie App
+A Movie App 
 
 ## Getting Started
+
+
+Design from dribbble.com https://dribbble.com/simantoo
+
+
 
 This project is a starting point for a Flutter application.
 
