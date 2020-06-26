@@ -7,6 +7,15 @@ A Movie App
 
 Design from dribbble.com https://dribbble.com/simantoo
 
+Day Mode.
+
+<img src ="screenshots/screen1.png" width = "200" height = "350">  <img src ="screenshots/screen2.png" width = "200" height = "350"> 
+
+Dark Mode
+
+<img src ="screenshots/screen3.png" width = "200" height = "350"> <img src ="screenshots/screen4.png" width = "200" height = "350">
+
+
 
 
 This project is a starting point for a Flutter application.
